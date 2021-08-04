@@ -1,0 +1,40 @@
+Dockerfile
+
+###################################################################################################
+FROM centos
+RUN mkdir /opt/tomcat/
+WORKDIR /opt/tomcat
+RUN yum -y install java
+RUN java -version
+RUN curl -O https://downloads.apache.org/tomcat/tomcat-8/v8.5.59/bin/apache-tomcat-8.5.59.tar.gz
+RUN tar xvfz apache*.tar.gz
+RUN mv apache-tomcat-8.5.59/* /opt/tomcat/.
+#https://tomcat.apache.org/tomcat-8.0-doc/appdev/sample/
+COPY ./sample.war /opt/tomcat/webapps
+EXPOSE 8080
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+
+#################################################################################################
+
+docker pull tomcat:8.5.47-jdk8-openjdk
+
+docker container run -d -p 8080:8080 tomcat:8.5.47-jdk8-openjdk
+
+docker ps
+
+#Here we are binding port 8080 of the host to 8080 of the container using -p or — publish and running container in detach mode using -d.
+
+docker stop "container-name" && docker rm "container-name"
+
+docker build -t sample-tomcat .
+
+#Here we can see, we are building a custom Docker Image from base Image tomcat:8.5.47-jdk8-openjdk in the current directory.
+
+docker image ls
+
+docker run -d -p 8080:8080 sample-tomcat
+
+docker ps
+
+http://localhost:8080/sample/
+

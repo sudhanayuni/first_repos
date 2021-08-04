@@ -1,0 +1,38 @@
+docker --help | grep -E "(export|import|load|save)"
+export      Export a container\'s filesystem as a tar archive
+import      Import the contents from a tarball to create a filesystem image
+load        Load an image from a tar archive or STDIN
+save        Save one or more images to a tar archive (streamed to STDOUT by default)
+
+docker build --tag dockerimportexport .
+
+docker image ls
+
+docker run dockerimportexport
+
+#Saving and Loading Images
+
+docker save dockerimportexport > dockerimportexport.tar
+
+ls -ltr
+
+docker import dockerimportexport.tar dockerimportexportnew
+
+docker images
+
+docker run dockerimportexportnew
+
+docker load < dockerimportexport.tar
+
+docker image ls
+
+docker export a8b14091b4e7 > dockerimportexport-container.tar 
+
+docker import dockerimportexport-container.tar dockerimportexportfs:latest
+
+
+Import and export images
+
+docker image save helloworld > helloworld.tar
+
+docker image load -i helloworld.tar
